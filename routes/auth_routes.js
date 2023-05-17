@@ -20,6 +20,10 @@ function app_routing(app) {
     }
   });
 
+  app.get("/some", (req,res) => {
+    res.render("some")
+  })
+
   app.post("/user_data", async (req, res) => {
     const username = req.body.txt;
     const email = req.body.email;
@@ -34,11 +38,11 @@ function app_routing(app) {
     const availableUsers = await find(Users, ["name"], [re_1]);
     const availableEmails = await find(Users, ["email"], [re_2]);
     if (availableEmails.length != 0) {
-      res.send("/"); // TO DO
+      res.send("/some"); // TO DO
       return;
     }
     if (availableUsers.length != 0) {
-      res.send("/"); // TO DO
+      res.send("/some"); // TO DO
       return;
     }
     const user = new Users(userObject);
@@ -46,8 +50,6 @@ function app_routing(app) {
       name: username,
     };
     let new_token = generateAccessToken(new_user);
-    // work here !!
-
     res.render(`${username}_Writes`, { auth_token: new_token });
   });
 
@@ -57,7 +59,7 @@ function app_routing(app) {
     let re = new RegExp(`^${email}`);
     const availableUsers = await find(Users, ["email"], [re]);
     if (availableUsers.length == 0) {
-      res.render("/"); // TO DO
+      res.render("/some"); // TO DO
       return;
     }
     let verified = validateUser(availableUsers[0].password);
@@ -68,9 +70,8 @@ function app_routing(app) {
       let new_token = generateAccessToken(new_user);
       res.render(`${username}_Writes`, { auth_token: new_token });
     } else {
-      res.render("/"); // TO DO
+      res.render("/some"); // TO DO
     }
-    // const accesstoken = jwt.sign(user,process.env.JSON_TOKEN_SECRET);
   });
 }
 
