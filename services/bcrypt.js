@@ -1,21 +1,13 @@
 const bcrypt = require("bcrypt");
 
 function generateHash(password,saltRounds) {
-  bcrypt
-    .hash(password, saltRounds)
-    .then((hash) => {
-      return hash;
-    })
-    .catch((err) => console.error(err.message));
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+    return hash;    
 }
 
-function validateUser(hash) {
-  bcrypt
-    .compare(password, hash)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => console.error(err.message));
+function validateUser(password,hash) {
+    return bcrypt.compareSync(password, hash);
 }
 
 module.exports = {generateHash,validateUser};

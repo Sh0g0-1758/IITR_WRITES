@@ -13,7 +13,7 @@ function app_routing(app) {
     } else {
         if(verifyToken(token).status) {
             let username = verifyToken(token).user_info.name;
-            res.render(`${username}_Writes`);
+            res.render(`${username}_Writes`, {username : username});
         } else {
             res.render("login")
         }
@@ -22,6 +22,10 @@ function app_routing(app) {
 
   app.get("/some", (req,res) => {
     res.render("some")
+  })
+
+  app.get("*/Writes", (req,res) => {
+    res.render("blog")
   })
 
   app.post("/user_data", async (req, res) => {
@@ -38,39 +42,40 @@ function app_routing(app) {
     const availableUsers = await find(Users, ["name"], [re_1]);
     const availableEmails = await find(Users, ["email"], [re_2]);
     if (availableEmails.length != 0) {
-      res.send("/some"); // TO DO
+      res.send("some"); // TO DO
       return;
     }
     if (availableUsers.length != 0) {
-      res.send("/some"); // TO DO
+      res.send("some"); // TO DO
       return;
     }
     const user = new Users(userObject);
+    await user.save();
     let new_user = {
       name: username,
     };
     let new_token = generateAccessToken(new_user);
-    res.render(`${username}_Writes`, { auth_token: new_token });
+    res.render(`Writes`, { auth_token: new_token, username : username });
   });
 
   app.post("/user", async (req, res) => {
     const email = req.body.email;
-    const password = req.body.password;
+    const password = req.body.pswd;
     let re = new RegExp(`^${email}`);
     const availableUsers = await find(Users, ["email"], [re]);
     if (availableUsers.length == 0) {
-      res.render("/some"); // TO DO
+      res.render("some"); // TO DO
       return;
     }
-    let verified = validateUser(availableUsers[0].password);
+    let verified = validateUser(password,availableUsers[0].password);
     if (verified) {
       let new_user = {
         name: availableUsers[0].name,
       };
       let new_token = generateAccessToken(new_user);
-      res.render(`${username}_Writes`, { auth_token: new_token });
+      res.render(`Writes`, { auth_token: new_token });
     } else {
-      res.render("/some"); // TO DO
+      res.render("some"); // TO DO
     }
   });
 }
