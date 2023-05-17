@@ -2,6 +2,7 @@
 const express = require("express");
 const path = require("path");
 const { app_routing } = require("./routes/auth_routes");
+const mongoose = require("mongoose");
 const { mongodb } = require("./services/mongo");
 
 // making an express app
@@ -20,11 +21,7 @@ app.use(express.urlencoded({ extended: true })); // to get the form data
 app_routing(app);
 
 // connecting to the database
-mongodb()
-  .then(() => {
-    console.log("database connected !!");
-  })
-  .catch((err) => console.log(err));
+mongodb();
 
 // starting the app
 app.listen(port, () => {

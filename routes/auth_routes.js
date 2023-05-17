@@ -1,18 +1,29 @@
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
 const { Users } = require("../models/user");
 const { generateHash, validateUser } = require("../services/bcrypt");
-const {find} = require("../services/mongo")
+const { find } = require("../services/mongo");
+const { generateAccessToken, verifyToken } = require("../services/jwt");
 
 function app_routing(app) {
   app.get("/", (req, res) => {
-    res.render("login");
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if(token == null) {
+        res.render("login");
+    } else {
+        if(verifyToken(token).status) {
+            let username = verifyToken(token).user_info.name;
+            res.render(`${username}_Writes`);
+        } else {
+            res.render("login")
+        }
+    }
   });
 
   app.post("/user_data", async (req, res) => {
     const username = req.body.txt;
     const email = req.body.email;
-    const password = generateHash(req.body.pswd,10);
+    const password = generateHash(req.body.pswd, 10);
     const userObject = {
       name: username,
       email: email,
@@ -20,31 +31,46 @@ function app_routing(app) {
     };
     let re_1 = new RegExp(`^${username}`);
     let re_2 = new RegExp(`^${email}`);
-    const availableUsers = await find(Users,["name"],[re_1]);
-    const availableEmails = await find(Users,["email"],[re_2]);
-    if(availableEmails.length != 0) {
-        res.send("/") // TO DO
-        return;
+    const availableUsers = await find(Users, ["name"], [re_1]);
+    const availableEmails = await find(Users, ["email"], [re_2]);
+    if (availableEmails.length != 0) {
+      res.send("/"); // TO DO
+      return;
     }
-    if(availableUsers.length != 0) {
-        res.send("/") // TO DO
-        return;
+    if (availableUsers.length != 0) {
+      res.send("/"); // TO DO
+      return;
     }
     const user = new Users(userObject);
-    res.render(`${username}_Writes`);
+    let new_user = {
+      name: username,
+    };
+    let new_token = generateAccessToken(new_user);
+    // work here !!
+
+    res.render(`${username}_Writes`, { auth_token: new_token });
   });
 
   app.post("/user", async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     let re = new RegExp(`^${email}`);
-    const availableUsers = await find(Users,["email"],[re]);
-    if(availableUsers.length == 0) {
-        res.render("/") // TO DO
-        return;
+    const availableUsers = await find(Users, ["email"], [re]);
+    if (availableUsers.length == 0) {
+      res.render("/"); // TO DO
+      return;
     }
-
-    // const accesstoken = jwt.sign(user, process.env.JSON_TOKEN_SECRET);
+    let verified = validateUser(availableUsers[0].password);
+    if (verified) {
+      let new_user = {
+        name: availableUsers[0].name,
+      };
+      let new_token = generateAccessToken(new_user);
+      res.render(`${username}_Writes`, { auth_token: new_token });
+    } else {
+      res.render("/"); // TO DO
+    }
+    // const accesstoken = jwt.sign(user,process.env.JSON_TOKEN_SECRET);
   });
 }
 
