@@ -15,8 +15,9 @@ body{
   height: 100vh;
   width: 100%;
 }
+ /* work on this line  */
 .section-center{
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 0;
   display: block;
@@ -27,6 +28,7 @@ body{
   text-align: center;
   transform: translateY(-50%);
 }
+
 h1{
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
