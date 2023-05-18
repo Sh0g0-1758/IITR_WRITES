@@ -5,20 +5,19 @@ function generateAccessToken(user) {
 }
 
 function verifyToken(token) {
+  let info = {
+    status: false,
+    user_info: null,
+  };
   jwt.verify(token, process.env.JSON_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      let info = {
-        status: false,
-        user_info: null,
+    if (err == null) {
+      info = {
+        status: true,
+        user_info: user,
       };
-      return info;
     }
-    let info = {
-      status: true,
-      user_info: user,
-    };
-    return info;
   });
+  return info;
 }
 
 module.exports = { generateAccessToken, verifyToken };

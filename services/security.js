@@ -1,16 +1,33 @@
-import { verifyToken } from "./jwt";
+const { verifyToken } = require("./jwt");
 
-function token_verification(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) {
-    res.render("/some"); //TODO
-  }
-  if (verifyToken(token).status) {
-    next();
+const authorization = (req, res, next) => {
+  const token = req.cookies.access_token;
+  let ourl = req.originalUrl;
+  console.log(ourl);
+  if (!token) {
+    req.verified = false;
+    req.o_url = ourl;
+    return next();
   } else {
-    res.render("/some"); //TODO
+    try {
+      let data = verifyToken(token);
+      console.log(verifyToken(token));
+      if (data.status == false) {
+        req.verified = false;
+        req.o_url = ourl;
+        return next();
+      } else {
+        req.username = data.user_info.name;
+        req.verified = true;
+        req.o_url = ourl;
+        return next();
+      }
+    } catch {
+      req.verified = false;
+      req.o_url = ourl;
+      return next();
+    }
   }
-}
+};
 
-module.exports = { token_verification };
+module.exports = { authorization };

@@ -3,30 +3,32 @@ const { Users } = require("../models/user");
 const { generateHash, validateUser } = require("../services/bcrypt");
 const { find } = require("../services/mongo");
 const { generateAccessToken, verifyToken } = require("../services/jwt");
+const { authorization } = require("../services/security");
 
 function app_routing(app) {
   app.get("/", (req, res) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if(token == null) {
-        res.render("login");
+    console.log(req.verified);
+    if (req.verified) {
+      res.render("Writes", { username: req.username });
     } else {
-        if(verifyToken(token).status) {
-            let username = verifyToken(token).user_info.name;
-            res.render(`${username}_Writes`, {username : username});
-        } else {
-            res.render("login")
-        }
+      res.render("login");
     }
   });
+  app.get("/logout", (req, res) => {
+    return res.clearCookie("access_token").status(200).render("/");
+  });
 
-  app.get("/some", (req,res) => {
-    res.render("some")
-  })
+  //   #############################################################
 
-  app.get("*/Writes", (req,res) => {
-    res.render("blog")
-  })
+  app.get("/some", (req, res) => {
+    res.render("some");
+  });
+
+  app.get("/Writes", (req, res) => {
+    res.render("Writes");
+  });
+
+  //   #####################################################################
 
   app.post("/user_data", async (req, res) => {
     const username = req.body.txt;
@@ -55,7 +57,13 @@ function app_routing(app) {
       name: username,
     };
     let new_token = generateAccessToken(new_user);
-    res.render(`Writes`, { auth_token: new_token, username : username });
+    return res
+      .cookie("access_token", new_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(200)
+      .render("Writes", { username: new_user.name });
   });
 
   app.post("/user", async (req, res) => {
@@ -66,16 +74,23 @@ function app_routing(app) {
     if (availableUsers.length == 0) {
       res.render("some"); // TO DO
       return;
-    }
-    let verified = validateUser(password,availableUsers[0].password);
-    if (verified) {
-      let new_user = {
-        name: availableUsers[0].name,
-      };
-      let new_token = generateAccessToken(new_user);
-      res.render(`Writes`, { auth_token: new_token });
     } else {
-      res.render("some"); // TO DO
+      let verified = validateUser(password, availableUsers[0].password);
+      if (verified) {
+        let new_user = {
+          name: availableUsers[0].name,
+        };
+        let new_token = generateAccessToken(new_user);
+        return res
+          .cookie("access_token", new_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+          })
+          .status(200)
+          .render("Writes", { username: new_user.name });
+      } else {
+        res.render("some"); // TO DO
+      }
     }
   });
 }
