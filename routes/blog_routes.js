@@ -5,12 +5,10 @@ const { find, delete_data } = require("../services/mongo");
 
 function blog_routing(app) {
   app.get("/blog_page", async (req, res) => {
-    if (req.verified && req.query.w == req.username) {
+    if (req.verified) {
       let title = req.query.t;
-      let username = req.query.w;
-      let re_1 = new RegExp(`^${username}`);
       let re_2 = new RegExp(`^${title}`);
-      const blog = await find(blogs, ["writer", "title"], [re_1, re_2]);
+      const blog = await find(blogs, ["title"], [re_2]);
       let actual_blog = blog[0];
       res.render("blog_page", {
         title: actual_blog.title,
