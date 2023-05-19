@@ -14,8 +14,8 @@ function profile_routing(app) {
     }
   });
 
-  app.get("/profile/delete", async (req, res) => {
-    if(req.verified && req.username === req.query.w) {
+  app.get("/profile_delete", async (req, res) => {
+    if(req.verified && req.username == req.query.w) {
         let title = req.query.t;
         let user = req.query.w;
         let re_1 = new RegExp(`^${title}`);

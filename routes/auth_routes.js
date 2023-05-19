@@ -10,13 +10,14 @@ function app_routing(app) {
     if (req.verified) {
       let username = req.username;
       res.redirect(`Writes/${username}`);
-    } else {
+    } else if (!req.token) {
       res.redirect("/login?em=f&un=f&u=f&p=f");
     }
   });
 
   app.get("/logout", (req, res) => {
-    return res.clearCookie("access_token").status(200).redirect("/");
+    res.clearCookie("access_token");
+    res.redirect("/");
   });
 
   //   #############################################################
@@ -34,11 +35,11 @@ function app_routing(app) {
   });
 
   app.get("/403", (req, res) => {
-    res.render("403").status(403);
+    res.status(403).render("403");
   });
 
   app.get("/404", (req, res) => {
-    res.render("404").status(404);
+    res.status(404).render("404");
   });
 
   app.get("/login", (req, res) => {

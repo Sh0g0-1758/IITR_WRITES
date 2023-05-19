@@ -76,11 +76,15 @@
             <%=sub_title%>
         </div>
         <div id="writer">
-            <%=writer%>
+            By <%=writer%>
         </div>
         <div id="blog">
-            <%=blog%>
         </div>
     </div>
+    <script>
+      var blog_content = <%- JSON.stringify(blog) %>;
+      let blog_to_show = document.getElementById("blog");
+      blog.innerHTML = blog_content;
+    </script>
   </body>
 </html>

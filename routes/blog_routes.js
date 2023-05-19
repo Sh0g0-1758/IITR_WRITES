@@ -1,7 +1,7 @@
 require("dotenv").config();
 const upload = require("express-fileupload");
 const {blogs} = require("../models/blog");
-const {find} = require("../services/mongo")
+const {find,delete_data} = require("../services/mongo")
 
 function blog_routing (app) {
 
@@ -11,8 +11,9 @@ function blog_routing (app) {
             let username = req.query.w;
             let re_1 = new RegExp(`^${username}`);
             let re_2 = new RegExp(`^${title}`);
-            const blog = await find(blogs, ["writer","title"], [re_1,re_2])[0];
-            res.render("blog_page", {writer : username, title : title, sub_title : blog.sub_title,blog : blog.blog})
+            const blog = await find(blogs, ["writer","title"], [re_1,re_2]);
+            let actual_blog = blog[0];
+            res.render("blog_page", {title : actual_blog.title,writer:actual_blog.writer,sub_title:actual_blog.sub_title,blog : actual_blog.blog, error : false, edit : true})
         } else {
             res.redirect("/403");
         }
@@ -28,20 +29,21 @@ function blog_routing (app) {
     })
 
     app.get("/blog/edit", async (req,res) => {
-        if(req.verified && req.username == req.params.w) {
+        if(req.verified && req.username == req.query.w) {
             let title = req.query.t;
             let username = req.query.w;
             let re_1 = new RegExp(`^${username}`);
             let re_2 = new RegExp(`^${title}`);
-            const blog = await find(blogs, ["writer","title"], [re_1,re_2])[0];
-            res.render("blog", {title : title,writer:blog.writer,sub_title:blog.sub_title,blog : blog.blog, error : false, edit : true})
+            const blog = await find(blogs, ["writer","title"], [re_1,re_2]);
+            let actual_blog = blog[0];
+            res.render("blog", {title : actual_blog.title,writer:actual_blog.writer,sub_title:actual_blog.sub_title,blog : actual_blog.blog, error : false, edit : true})
         } else {
             res.redirect("/403");
         }
     })
 
     app.post("/blog/del_new", async (req,res) => {
-        if(req.verified && req.username == req.params.name) {
+        if(req.verified && req.username == req.query.w) {
 
             /// deleting the old blog
 
@@ -68,10 +70,8 @@ function blog_routing (app) {
                 } else {
                     let file = req.files.display;
                     let name = file.name.split(" ").join("");
-                    console.log(name);
                     file.mv("/home/shogo/shogo/dev/blocsoc/blogSite/public/uploads/"+name, async function(err) {
                         if (err) {
-                            console.log(err)
                             res.redirect("/404")
                           } else {
                               const blog_object = {
@@ -94,7 +94,7 @@ function blog_routing (app) {
 
     app.post("/blog/create/:name", async (req,res) => {
         if(req.verified && req.username == req.params.name) {
-            let title = req.body.title;
+            let title = req.body.title.split(" ").join("_"); 
             let username = req.params.name;
             let re_1 = new RegExp(`^${username}`);
             let re_2 = new RegExp(`^${title}`);
@@ -104,15 +104,13 @@ function blog_routing (app) {
             } else {
                 let file = req.files.display;
                 let name = file.name.split(" ").join("");
-                console.log(name);
                 file.mv("/home/shogo/shogo/dev/blocsoc/blogSite/public/uploads/"+name, async function(err) {
                     if (err) {
-                        console.log(err)
                         res.redirect("/404")
                       } else {
                           const blog_object = {
-                              writer : req.params.name,
-                              title : req.body.title,
+                              writer : username,
+                              title : title,
                               sub_title : req.body.sub_title,
                               blog : req.body.content,
                               display : name

@@ -32,6 +32,11 @@ profile_routing(app);
 // connecting to the database
 mongodb();
 
+// for handling 404 errors. 
+app.use((req, res, next) => {
+  res.status(404).render("404");
+})
+
 // starting the app
 app.listen(port, () => {
   console.log(`App listening at port ${port}`);

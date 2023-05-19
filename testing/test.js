@@ -3,26 +3,12 @@ const upload = require("express-fileupload");
 const app = express();
 app.use(express.static("some/uploads")); // to view static files
 app.set("view engine", "ejs");
-// app.use(express.json()); // to get the data in json format
-// app.use(express.urlencoded({ extended: true })); // to get the form data
+app.use(express.json()); // to get the data in json format
+app.use(express.urlencoded({ extended: true })); // to get the form data
 // app.use(upload());
 
 app.post("/data", (req, res) => {
-  console.log(req.body.title);
-  console.log(req.body.sub_title);
-  console.log(req.body.content);
-  if (req.files) {
-    var file = req.files.display;
-    var filename = file.name;
-    console.log(file);
-    file.mv("./uploads/" + filename, function (err) {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(":)");
-      }
-    });
-  }
+  res.render("error", {content : req.body.content})
 });
 
 app.get("/", (req, res) => {
@@ -37,12 +23,6 @@ app.get("/hope", (req,res) => {
   }
   res.end();
 })
-
-app.get("/pls", (req,res) => {
-  res.redirect("/hope", {hope : true})
-})
-
-app.post("/post", (req, res) => {});
 
 app.listen(8989, () => {
   console.log("end it luv");

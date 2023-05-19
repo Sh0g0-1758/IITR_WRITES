@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community</title>
+    <title>Blog</title>
     <link rel="stylesheet" href="/css/blog.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap"
@@ -82,9 +82,9 @@
         %>
         <form method="post" enctype="multipart/form-data" action= <%=place %> >
             <label for="name">Title : </label>
-            <input value=<%=title %> id="name" type="text" name="title" placeholder="title" required />
+            <input id="name" type="text" name="title" placeholder="title" required />
             <label for="sub_title">Sub_Title : </label>
-            <input value=<%=sub_title %> id="sub_title" type="text" name="sub_title" placeholder="sub_title" required />
+            <input id="sub_title" type="text" name="sub_title" placeholder="sub_title" required />
             <label for="image">Cover Image : </label>
             <input
                 id="image"
@@ -94,20 +94,27 @@
               required
             />
             <label for="x">Start Writing !</label>
-            <input value=<%=blog %> id="x" type="hidden" name="content" />
+            <input id="x" type="hidden" name="content" />
             <trix-editor class="trix-content" input="x"></trix-editor>
             <button type="submit">POST</button>
         </form>
         <div class="validation"></div>
     </div>
     <script>
-    trix-file-accept.preventDefault();
+    // trix-file-accept.preventDefault();
     var error = <%- JSON.stringify(error) %>;
+    var title = <%- JSON.stringify(title) %>;
+    var sub_title = <%- JSON.stringify(sub_title) %>;
+    var blog = <%- JSON.stringify(blog) %>;
+    let to_change1 = document.getElementById("name").value = title;
+    let to_change2 = document.getElementById("sub_title").value = sub_title;
+    let to_change3 = document.getElementById("x").value = sub_title;
     let to_show = document.getElementsByClassName("validation")[0];
     if(error == "true") {
+        to_show.style.display = "";
         to_show.innerHTML = "You have another blog with the same title so please try a different title. ";
     } else {
-        to_show.style.display = none;
+        to_show.style.display = "none";
     }
     </script>
   </body>
