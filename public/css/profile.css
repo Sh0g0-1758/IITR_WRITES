@@ -284,7 +284,9 @@ h1 {
   }
 }
 
-html *, html *:before, html *:after {
+html *,
+html *:before,
+html *:after {
   box-sizing: inherit;
 }
 
@@ -321,22 +323,26 @@ html *, html *:before, html *:after {
 @media (min-width: 1024px) {
   .card__thumb {
     max-height: 500px;
- }
+  }
 }
 .card__thumb::after {
   position: absolute;
   top: 0;
   display: block;
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(0, 0, 0, .5) 40%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5) 40%,
+    rgba(255, 255, 255, 0) 100%
+  );
   transition: 0.3s;
 }
 @media (min-width: 1024px) {
   .card__thumb::after {
     top: calc(100% - 140px);
- }
+  }
 }
 .card__image {
   transition: 0.5s ease-in-out;
@@ -355,13 +361,13 @@ html *, html *:before, html *:after {
   .card__caption {
     top: calc(100% - 110px);
     transform: unset;
- }
+  }
 }
 .card__title {
   display: -webkit-box;
   max-height: 85px;
   overflow: hidden;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 23px;
   line-height: 28px;
   text-shadow: 0px 1px 5px black;
@@ -374,7 +380,7 @@ html *, html *:before, html *:after {
   max-height: 150px;
   margin: 20px 0;
   overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   line-height: 20px;
   text-overflow: ellipsis;
@@ -385,14 +391,14 @@ html *, html *:before, html *:after {
 @media (min-width: 1024px) {
   .card__snippet {
     margin: 60px 0;
- }
+  }
 }
 .card__button {
   display: inline-block;
   padding: 10px 20px;
   color: white;
   border: 1px solid white;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
   text-decoration: none;
@@ -437,19 +443,19 @@ h1 {
 }
 
 .header {
-  position:relative;
-  text-align:center;
-  color:white;
+  position: relative;
+  text-align: center;
+  color: white;
 }
 
 .inner-header {
-  height:0px;
-  width:100%;
+  height: 0px;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
-.flex { 
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -457,16 +463,16 @@ h1 {
 }
 
 .waves {
-  position:relative;
+  position: relative;
   width: 70%;
-  height:10px;
-  margin-bottom:-7px;
-  min-height:100px;
-  max-height:150px;
+  height: 10px;
+  margin-bottom: -7px;
+  min-height: 100px;
+  max-height: 150px;
 }
 
 .parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
 }
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
@@ -486,22 +492,22 @@ h1 {
 }
 @keyframes move-forever {
   0% {
-   transform: translate3d(-90px,0,0);
+    transform: translate3d(-90px, 0, 0);
   }
-  100% { 
-    transform: translate3d(85px,0,0);
+  100% {
+    transform: translate3d(85px, 0, 0);
   }
 }
 
 @media (max-width: 768px) {
   .waves {
-    height:40px;
-    min-height:40px;
+    height: 40px;
+    min-height: 40px;
   }
   .content {
-    height:30vh;
+    height: 30vh;
   }
   h1 {
-    font-size:24px;
+    font-size: 24px;
   }
 }

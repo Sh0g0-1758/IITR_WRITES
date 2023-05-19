@@ -33,4 +33,4 @@ async function delete_data(model, query, param) {
   return await model.deleteOne(Tofind);
 }
 
-module.exports = { mongodb, find, delete_data,findall };
+module.exports = { mongodb, find, delete_data, findall };

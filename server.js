@@ -2,8 +2,8 @@
 const express = require("express");
 const path = require("path");
 const { app_routing } = require("./routes/auth_routes");
-const {blog_routing} = require("./routes/blog_routes");
-const {profile_routing} = require("./routes/profile_routes");
+const { blog_routing } = require("./routes/blog_routes");
+const { profile_routing } = require("./routes/profile_routes");
 const { mongodb } = require("./services/mongo");
 const cookieParser = require("cookie-parser");
 const { authorization } = require("./services/security");
@@ -32,10 +32,10 @@ profile_routing(app);
 // connecting to the database
 mongodb();
 
-// for handling 404 errors. 
+// for handling 404 errors.
 app.use((req, res, next) => {
   res.status(404).render("404");
-})
+});
 
 // starting the app
 app.listen(port, () => {
