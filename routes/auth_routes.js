@@ -3,7 +3,6 @@ const { Users } = require("../models/user");
 const { generateHash, validateUser } = require("../services/bcrypt");
 const { find } = require("../services/mongo");
 const { generateAccessToken, verifyToken } = require("../services/jwt");
-const { authorization } = require("../services/security");
 
 function app_routing(app) {
   app.get("/", (req, res) => {

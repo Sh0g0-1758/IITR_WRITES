@@ -2,10 +2,12 @@
 const express = require("express");
 const path = require("path");
 const { app_routing } = require("./routes/auth_routes");
+const {blog_routing} = require("./routes/blog_routes");
 const mongoose = require("mongoose");
 const { mongodb } = require("./services/mongo");
 const cookieParser = require("cookie-parser");
 const { authorization } = require("./services/security");
+const upload = require("express-fileupload");
 
 // making an express app
 const app = express();
@@ -20,9 +22,11 @@ app.use(express.json()); // to get the data in json format
 app.use(express.urlencoded({ extended: true })); // to get the form data
 app.use(cookieParser());
 app.use(authorization);
+app.use(upload());
 
 // setting the routes of our app
 app_routing(app);
+blog_routing(app);
 
 // connecting to the database
 mongodb();

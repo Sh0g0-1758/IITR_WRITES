@@ -5,25 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Community</title>
-    <link rel="stylesheet" href="../css/Writes.css" />
+    <link rel="stylesheet" href="/css/blog.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap"
       rel="stylesheet"
     />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://unpkg.com/trix@2.0.0/dist/trix.css"
+  />
+  <script
+    type="text/javascript"
+    src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"
+  ></script>
   </head>
   <body>
     <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
     <label for="menu-icon"></label>
     <nav class="nav">
       <ul class="pt-5">
-        <li><a href="#">Search</a></li>
-        <li><a href="#">Create a Blog</a></li>
-        <li><a href="#">Manage your Blogs</a></li>
+        <li><a href="/">Community</a></li>
+        <li><a href= /blog/create/<%=username%> >Create a Blog</a></li>
         <li><a href="#">Profile</a></li>
       </ul>
     </nav>
     <div class="section-center">
-      <h1 class="mb-0 head">IITR_WRITES</h1>
+      <h1 id="title">IITR_WRITES</h1>
     </div>
     <div id="tag_line">ALL THE WORDS YOU NEVER SAID</div>
     <div class="header">
@@ -62,9 +70,26 @@
         </svg>
       </div>
     </div>
-    
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor2" id="cursor2"></div>
-    <div class="cursor3" id="cursor3"></div>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" action= <%=username %> >
+            <label for="name">Title : </label>
+            <input id="name" type="text" name="title" placeholder="title" required />
+            <label for="sub_title">Sub_Title : </label>
+            <input id="sub_title" type="text" name="sub_title" placeholder="sub_title" required />
+            <label for="image">Cover Image : </label>
+            <input
+                id="image"
+              type="file"
+              name="display"
+              placeholder="image"
+              required
+            />
+            <label for="x">Start Writing !</label>
+            <input id="x" type="hidden" name="content" />
+            <trix-editor class="trix-content" input="x"></trix-editor>
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+    <script>trix-file-accept.preventDefault();</script>
   </body>
 </html>
