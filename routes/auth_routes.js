@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config(); 
 const { Users } = require("../models/user");
 const { generateHash, validateUser } = require("../services/bcrypt");
 const { find } = require("../services/mongo");
@@ -7,26 +7,43 @@ const { authorization } = require("../services/security");
 
 function app_routing(app) {
   app.get("/", (req, res) => {
-    console.log(req.verified);
     if (req.verified) {
-      res.render("Writes", { username: req.username });
+      let username = req.username;
+      res.redirect(`Writes/${username}`)
     } else {
-      res.render("login");
+      res.redirect("/login?em=f&un=f&u=f&p=f");
     }
   });
+
   app.get("/logout", (req, res) => {
-    return res.clearCookie("access_token").status(200).render("/");
+    return res.clearCookie("access_token").status(200).redirect("/");
   });
 
   //   #############################################################
 
-  app.get("/some", (req, res) => {
-    res.render("some");
-  });
+  app.get("/Writes/:name", (req,res) => {
+    if(req.verified) {
+      res.render("Writes", { username : req.params.name})
+    } else {
+      res.redirect("/403");
+    }
+  })
 
-  app.get("/Writes", (req, res) => {
-    res.render("Writes");
-  });
+  app.get("/403", (req,res) => {
+    res.render("403").status(403);
+  })
+
+  app.get("/404", (req,res) => {
+    res.render("404").status(404);
+  })
+
+  app.get("/login", (req,res) => {
+    let email = req.query.em;
+    let username = req.query.un;
+    let user = req.query.u;
+    let password = req.query.p;
+    res.render("login", {email : email , username : username, user : user, password : password})
+  })
 
   //   #####################################################################
 
@@ -44,11 +61,11 @@ function app_routing(app) {
     const availableUsers = await find(Users, ["name"], [re_1]);
     const availableEmails = await find(Users, ["email"], [re_2]);
     if (availableEmails.length != 0) {
-      res.send("some"); // TO DO
+      res.redirect("/login?em=t&un=f&u=f&p=f"); // TO DO
       return;
     }
     if (availableUsers.length != 0) {
-      res.send("some"); // TO DO
+      res.redirect("/login?em=f&un=t&u=f&p=f"); // TO DO
       return;
     }
     const user = new Users(userObject);
@@ -63,7 +80,7 @@ function app_routing(app) {
         secure: process.env.NODE_ENV === "production",
       })
       .status(200)
-      .render("Writes", { username: new_user.name });
+      .redirect(`Writes/${new_user.name}`)
   });
 
   app.post("/user", async (req, res) => {
@@ -72,7 +89,7 @@ function app_routing(app) {
     let re = new RegExp(`^${email}`);
     const availableUsers = await find(Users, ["email"], [re]);
     if (availableUsers.length == 0) {
-      res.render("some"); // TO DO
+      res.redirect("/login?em=f&un=f&u=t&p=f"); // TO DO
       return;
     } else {
       let verified = validateUser(password, availableUsers[0].password);
@@ -87,9 +104,9 @@ function app_routing(app) {
             secure: process.env.NODE_ENV === "production",
           })
           .status(200)
-          .render("Writes", { username: new_user.name });
+          .redirect(`Writes/${new_user.name}`)
       } else {
-        res.render("some"); // TO DO
+        res.redirect("/login?em=f&un=f&u=f&p=t") // TO DO
       }
     }
   });

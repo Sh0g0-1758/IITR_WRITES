@@ -11,7 +11,6 @@ const authorization = (req, res, next) => {
   } else {
     try {
       let data = verifyToken(token);
-      console.log(verifyToken(token));
       if (data.status == false) {
         req.verified = false;
         req.o_url = ourl;

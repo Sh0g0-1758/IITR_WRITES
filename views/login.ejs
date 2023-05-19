@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Slide Navbar</title>
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="css/login.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap"
@@ -40,5 +40,31 @@
         </form>
       </div>
     </div>
+    <div class="validation"></div>
+    <script>
+      var email = <%- JSON.stringify(email) %>;
+      var username = <%- JSON.stringify(username) %>;
+      var user = <%- JSON.stringify(user) %>;
+      var password = <%- JSON.stringify(password) %>;
+      let error = "";
+      if (username == "t") {
+        error =
+          error +
+          "This username already exists, Please choose a different username";
+      } else if (email == "t") {
+        error = error + "Another user with this email already exists";
+      } else if (user == "t") {
+        error = error + "Please check the email-ID as no such user exists";
+      } else if (password == "t") {
+        error = error + "Please check your password";
+      }
+      console.log(error);
+      let error_to_display = document.getElementsByClassName("validation")[0];
+      if(error == "") {
+        error_to_display.style.display = "none"
+      } else {
+        error_to_display.innerHTML = error;
+      }
+    </script>
   </body>
 </html>

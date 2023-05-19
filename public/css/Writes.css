@@ -7,7 +7,6 @@ body {
   line-height: 1.7;
   color: #ececee;
   background-color: #1f2029;
-  /* overflow-x: hidden; */
   background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat-back.svg");
   background-position: center;
   background-repeat: repeat;
@@ -260,21 +259,6 @@ h1 {
 .menu-icon:checked ~ .nav ul li:nth-child(4) {
   transition-delay: 1640ms;
 }
-/*
-.logo {
-  position: absolute;
-  top: 60px;
-  left: 50px;
-  display: block;
-  z-index: 11;
-  transition: all 250ms linear;
-}
-.logo img {
-  height: 26px;
-  width: auto;
-  display: block;
-}
-*/
 
 @media screen and (max-width: 991px) {
   .menu-icon:checked + label,
@@ -300,8 +284,6 @@ h1 {
   }
 }
 
-/* #Cursor
-================================================== */
 .cursor,
 .cursor2,
 .cursor3 {
@@ -342,40 +324,9 @@ h1 {
   box-shadow: 0 0 0 rgb(12, 187, 152)
 }
 
-
-/* .section-fluid-main{
-  position: relative;
-  display: block;
-  width: calc(100% - 40px);
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  justify-content: center;
-  max-width: 1050px;
-  padding-top: 50px;
-  /* padding-bottom: 90px; */
-  /* -ms-flex-item-align: center; */
-  /* align-self: center; */
-  /* z-index: 3; */
-/* } */ 
-
-/* html {
-  box-sizing: border-box;
-  font-size: 62.5%;
-} */
 html *, html *:before, html *:after {
   box-sizing: inherit;
 }
-
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #e6e6e6;
-} */
 
 .container {
   display: flex;
@@ -387,7 +338,6 @@ html *, html *:before, html *:after {
 .card {
   width: 400px;
   margin: 40px;
-  /* background-color: white; */
   box-shadow: 1px 2px 2px 1px white;
 }
 .card:hover .card__caption {
@@ -510,9 +460,6 @@ h1 {
   margin-top: 0px;
 }
 
-
-
-/* testing  */
 @import url(//fonts.googleapis.com/css?family=Lato:300:400);
 
 #test {
@@ -532,7 +479,6 @@ h1 {
 .header {
   position:relative;
   text-align:center;
-  /* background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%); */
   color:white;
 }
 
@@ -543,7 +489,7 @@ h1 {
   padding: 0;
 }
 
-.flex { /*Flexbox for containers*/
+.flex { 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -554,19 +500,10 @@ h1 {
   position:relative;
   width: 70%;
   height:10px;
-  margin-bottom:-7px; /*Fix for safari gap*/
+  margin-bottom:-7px;
   min-height:100px;
   max-height:150px;
 }
-
-/* .content {
-  position:relative;
-  height:0px;
-  text-align:center;
-  background-color: white;
-} */
-
-/* Animation */
 
 .parallax > use {
   animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
@@ -596,7 +533,6 @@ h1 {
   }
 }
 
-/*Shrinking for mobile*/
 @media (max-width: 768px) {
   .waves {
     height:40px;
