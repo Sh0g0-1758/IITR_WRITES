@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community</title>
-    <link rel="stylesheet" href="/css/Writes.css" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="/css/profile.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap"
       rel="stylesheet"
@@ -28,7 +28,7 @@
     <div id="tag_line">ALL THE WORDS YOU NEVER SAID</div>
     <div class="header">
       <div class="inner-header flex">
-        <h2 id="test">The Community</h2>
+        <h2 id="test"><%=username%></h2>
       </div>
       <div>
         <svg
@@ -63,26 +63,28 @@
       </div>
     </div>
     <div class="container">
-      <%blogs.forEach((e) => { %>
-          <div class="card">
-            <figure class="card__thumb">
-              <img
-                src=/uploads/<%=e.display%>
-                alt="Picture for the blog"
-                class="card__image"
-              />
-              <figcaption class="card__caption">
-                <h2 class="card__title">
-                  <%=e.title %>
-                </h2>
-                <p class="card__snippet">
-                  <%= e.sub_title %>
-                </p>
-                <a href=/blog_page/?t=<%=e.title%>&w=<%=username%> class="card__button">Read more</a>
-              </figcaption>
-            </figure>
-          </div>
-      <% }) %>
-  </div>
+        <% blogs.forEach((e) => { %>
+            <div class="card">
+              <figure class="card__thumb">
+                <img
+                  src=/uploads/<%=e.display%>
+                  alt="Picture for the blog"
+                  class="card__image"
+                />
+                <figcaption class="card__caption">
+                  <h2 class="card__title">
+                    <%=e.title%>
+                  </h2>
+                  <p class="card__snippet">
+                    <%=e.sub_title%>
+                  </p>
+                  <a href=/blog_page/?t=<%=e.title%>&w=<%=username%> class="card__button">Read more</a>
+                  <a href=/profile/delete/?t=<%=e.title>%&w=<%=username%> class="card__button">Delete</a>
+                  <a href=/blog/edit/?t=<%=e.title>%&w=<%=username%> class="card__button">Edit</a>
+                </figcaption>
+              </figure>
+            </div>
+        <% }) %>
+    </div>
   </body>
 </html>

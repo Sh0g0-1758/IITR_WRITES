@@ -1,14 +1,15 @@
-require("dotenv").config(); 
+require("dotenv").config();
 const { Users } = require("../models/user");
+const { blogs } = require("../models/blog");
 const { generateHash, validateUser } = require("../services/bcrypt");
-const { find } = require("../services/mongo");
+const { find, findall } = require("../services/mongo");
 const { generateAccessToken, verifyToken } = require("../services/jwt");
 
 function app_routing(app) {
   app.get("/", (req, res) => {
     if (req.verified) {
       let username = req.username;
-      res.redirect(`Writes/${username}`)
+      res.redirect(`Writes/${username}`);
     } else {
       res.redirect("/login?em=f&un=f&u=f&p=f");
     }
@@ -20,29 +21,38 @@ function app_routing(app) {
 
   //   #############################################################
 
-  app.get("/Writes/:name", (req,res) => {
-    if(req.verified) {
-      res.render("Writes", { username : req.params.name})
+  app.get("/Writes/:name", async (req, res) => {
+    if (req.verified && req.username === req.params.name) {
+      let available_blogs = await findall(blogs);
+      res.render("Writes", {
+        username: req.params.name,
+        blogs: available_blogs,
+      });
     } else {
       res.redirect("/403");
     }
-  })
+  });
 
-  app.get("/403", (req,res) => {
+  app.get("/403", (req, res) => {
     res.render("403").status(403);
-  })
+  });
 
-  app.get("/404", (req,res) => {
+  app.get("/404", (req, res) => {
     res.render("404").status(404);
-  })
+  });
 
-  app.get("/login", (req,res) => {
+  app.get("/login", (req, res) => {
     let email = req.query.em;
     let username = req.query.un;
     let user = req.query.u;
     let password = req.query.p;
-    res.render("login", {email : email , username : username, user : user, password : password})
-  })
+    res.render("login", {
+      email: email,
+      username: username,
+      user: user,
+      password: password,
+    });
+  });
 
   //   #####################################################################
 
@@ -79,7 +89,7 @@ function app_routing(app) {
         secure: process.env.NODE_ENV === "production",
       })
       .status(200)
-      .redirect(`Writes/${new_user.name}`)
+      .redirect(`Writes/${new_user.name}`);
   });
 
   app.post("/user", async (req, res) => {
@@ -103,9 +113,9 @@ function app_routing(app) {
             secure: process.env.NODE_ENV === "production",
           })
           .status(200)
-          .redirect(`Writes/${new_user.name}`)
+          .redirect(`Writes/${new_user.name}`);
       } else {
-        res.redirect("/login?em=f&un=f&u=f&p=t") // TO DO
+        res.redirect("/login?em=f&un=f&u=f&p=t"); // TO DO
       }
     }
   });

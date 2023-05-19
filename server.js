@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const { app_routing } = require("./routes/auth_routes");
 const {blog_routing} = require("./routes/blog_routes");
-const mongoose = require("mongoose");
+const {profile_routing} = require("./routes/profile_routes");
 const { mongodb } = require("./services/mongo");
 const cookieParser = require("cookie-parser");
 const { authorization } = require("./services/security");
@@ -27,6 +27,7 @@ app.use(upload());
 // setting the routes of our app
 app_routing(app);
 blog_routing(app);
+profile_routing(app);
 
 // connecting to the database
 mongodb();

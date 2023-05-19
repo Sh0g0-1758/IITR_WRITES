@@ -4,12 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community</title>
-    <link rel="stylesheet" href="/css/Writes.css" />
+    <title>Blog</title>
+    <link rel="stylesheet" href="/css/blog_page.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto:wght@300&display=swap"
       rel="stylesheet"
     />
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://unpkg.com/trix@2.0.0/dist/trix.css"
+  />
+  <script
+    type="text/javascript"
+    src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"
+  ></script>
   </head>
   <body>
     <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
@@ -17,18 +26,18 @@
     <nav class="nav">
       <ul class="pt-5">
         <li><a href="/">Community</a></li>
-        <li><a href=/blog/create/<%=username%> >Create a Blog</a></li>
-        <li><a href=/profile/<%=username%> >Profile</a></li>
+        <li><a href= /blog/create/<%=writer%> >Create a Blog</a></li>
+        <li><a href=/profile/<%=writer%> >Profile</a></li>
         <li><a href=/logout >Log out</a></li>
       </ul>
     </nav>
     <div class="section-center">
-      <h1 class="mb-0 head">IITR_WRITES</h1>
+      <h1 id="title">IITR_WRITES</h1>
     </div>
     <div id="tag_line">ALL THE WORDS YOU NEVER SAID</div>
     <div class="header">
       <div class="inner-header flex">
-        <h2 id="test">The Community</h2>
+        <h2 id="test"><%=title %></h2>
       </div>
       <div>
         <svg
@@ -63,26 +72,15 @@
       </div>
     </div>
     <div class="container">
-      <%blogs.forEach((e) => { %>
-          <div class="card">
-            <figure class="card__thumb">
-              <img
-                src=/uploads/<%=e.display%>
-                alt="Picture for the blog"
-                class="card__image"
-              />
-              <figcaption class="card__caption">
-                <h2 class="card__title">
-                  <%=e.title %>
-                </h2>
-                <p class="card__snippet">
-                  <%= e.sub_title %>
-                </p>
-                <a href=/blog_page/?t=<%=e.title%>&w=<%=username%> class="card__button">Read more</a>
-              </figcaption>
-            </figure>
-          </div>
-      <% }) %>
-  </div>
+        <div id="sub_title">
+            <%=sub_title%>
+        </div>
+        <div id="writer">
+            <%=writer%>
+        </div>
+        <div id="blog">
+            <%=blog%>
+        </div>
+    </div>
   </body>
 </html>

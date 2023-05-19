@@ -383,21 +383,3 @@ h1 {
   }
 }
 
-.container {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  min-width: 100%;
-}
-
-.validation {
-	border: 1px solid;
-	margin: 10px 0px;
-	padding: 15px 10px 15px 50px;
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	color: #D63301;
-	background-color: #FFCCBA;
-	background-image: url('https://i.imgur.com/GnyDvKN.png');
-}

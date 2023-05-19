@@ -26,8 +26,9 @@
     <nav class="nav">
       <ul class="pt-5">
         <li><a href="/">Community</a></li>
-        <li><a href= /blog/create/<%=username%> >Create a Blog</a></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href= /blog/create/<%=writer%> >Create a Blog</a></li>
+        <li><a href=/profile/<%=writer%> >Profile</a></li>
+        <li><a href=/logout >Log out</a></li>
       </ul>
     </nav>
     <div class="section-center">
@@ -71,11 +72,19 @@
       </div>
     </div>
     <div class="container">
-        <form method="post" enctype="multipart/form-data" action= <%=username %> >
+        <%
+        let place = writer;
+        if (edit) {
+            place = `/blog/del_new?t=${title}&w=${writer}`
+        } else {
+            place = writer
+        }
+        %>
+        <form method="post" enctype="multipart/form-data" action= <%=place %> >
             <label for="name">Title : </label>
-            <input id="name" type="text" name="title" placeholder="title" required />
+            <input value=<%=title %> id="name" type="text" name="title" placeholder="title" required />
             <label for="sub_title">Sub_Title : </label>
-            <input id="sub_title" type="text" name="sub_title" placeholder="sub_title" required />
+            <input value=<%=sub_title %> id="sub_title" type="text" name="sub_title" placeholder="sub_title" required />
             <label for="image">Cover Image : </label>
             <input
                 id="image"
@@ -85,11 +94,21 @@
               required
             />
             <label for="x">Start Writing !</label>
-            <input id="x" type="hidden" name="content" />
+            <input value=<%=blog %> id="x" type="hidden" name="content" />
             <trix-editor class="trix-content" input="x"></trix-editor>
-            <button type="submit">Sign up</button>
+            <button type="submit">POST</button>
         </form>
+        <div class="validation"></div>
     </div>
-    <script>trix-file-accept.preventDefault();</script>
+    <script>
+    trix-file-accept.preventDefault();
+    var error = <%- JSON.stringify(error) %>;
+    let to_show = document.getElementsByClassName("validation")[0];
+    if(error == "true") {
+        to_show.innerHTML = "You have another blog with the same title so please try a different title. ";
+    } else {
+        to_show.style.display = none;
+    }
+    </script>
   </body>
 </html>

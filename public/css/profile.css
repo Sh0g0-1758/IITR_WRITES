@@ -26,7 +26,7 @@ body {
   text-align: center;
   transform: translateY(-50%);
 }
-#title {
+h1 {
   font-family: "Montserrat", sans-serif;
   font-weight: 800;
   font-size: 7vw;
@@ -284,6 +284,125 @@ body {
   }
 }
 
+html *, html *:before, html *:after {
+  box-sizing: inherit;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0 70px;
+}
+.card {
+  width: 400px;
+  margin: 40px;
+  box-shadow: 1px 2px 2px 1px white;
+}
+.card:hover .card__caption {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.card:hover .card__image {
+  transform: translateY(-10px);
+}
+.card:hover .card__thumb::after {
+  top: 0;
+}
+.card:hover .card__snippet {
+  margin: 20px 0;
+}
+.card__thumb {
+  position: relative;
+  max-height: 400px;
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .card__thumb {
+    max-height: 500px;
+ }
+}
+.card__thumb::after {
+  position: absolute;
+  top: 0;
+  display: block;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0, 0, 0, .5) 40%, rgba(255, 255, 255, 0) 100%);
+  transition: 0.3s;
+}
+@media (min-width: 1024px) {
+  .card__thumb::after {
+    top: calc(100% - 140px);
+ }
+}
+.card__image {
+  transition: 0.5s ease-in-out;
+}
+.card__caption {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  padding: 0 20px;
+  color: white;
+  transform: translateY(-50%);
+  text-align: center;
+  transition: 0.3s;
+}
+@media (min-width: 1024px) {
+  .card__caption {
+    top: calc(100% - 110px);
+    transform: unset;
+ }
+}
+.card__title {
+  display: -webkit-box;
+  max-height: 85px;
+  overflow: hidden;
+  font-family: 'Playfair Display', serif;
+  font-size: 23px;
+  line-height: 28px;
+  text-shadow: 0px 1px 5px black;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.card__snippet {
+  display: -webkit-box;
+  max-height: 150px;
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  transition: 0.5s ease-in-out;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+@media (min-width: 1024px) {
+  .card__snippet {
+    margin: 60px 0;
+ }
+}
+.card__button {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  border: 1px solid white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.card__button:hover {
+  color: black;
+  background-color: white;
+}
+
 #tag_line {
   text-align: center;
   margin-bottom: 6.25rem;
@@ -295,6 +414,10 @@ body {
 
 h1 {
   margin-bottom: 0px;
+}
+
+.container {
+  margin-top: 0px;
 }
 
 @import url(//fonts.googleapis.com/css?family=Lato:300:400);
@@ -381,23 +504,4 @@ h1 {
   h1 {
     font-size:24px;
   }
-}
-
-.container {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  min-width: 100%;
-}
-
-.validation {
-	border: 1px solid;
-	margin: 10px 0px;
-	padding: 15px 10px 15px 50px;
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 13px;
-	color: #D63301;
-	background-color: #FFCCBA;
-	background-image: url('https://i.imgur.com/GnyDvKN.png');
 }

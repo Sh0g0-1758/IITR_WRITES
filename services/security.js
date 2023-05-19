@@ -7,14 +7,16 @@ const authorization = (req, res, next) => {
   if (!token) {
     req.verified = false;
     req.o_url = ourl;
-    return next();
+    res.redirect("/403");
+    return;
   } else {
     try {
       let data = verifyToken(token);
       if (data.status == false) {
         req.verified = false;
         req.o_url = ourl;
-        return next();
+        res.redirect("/403");
+        return;
       } else {
         req.username = data.user_info.name;
         req.verified = true;
@@ -24,7 +26,8 @@ const authorization = (req, res, next) => {
     } catch {
       req.verified = false;
       req.o_url = ourl;
-      return next();
+      res.redirect("/403");
+      return;
     }
   }
 };
